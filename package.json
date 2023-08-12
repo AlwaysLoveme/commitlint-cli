@@ -1,7 +1,7 @@
 {
-  "name": "@zhuxian/commitlint",
+  "name": "@zhuxian/commitlint-cli",
   "version": "0.0.1",
-  "description": "easy way to generate commitlint configuration rules for your project width @commitlint/cli and husky",
+  "description": "A node cli tool to generate commitlint configuration rules for your project with @commitlint/cli and husky",
   "bin": {
     "commitlint-cli": "./bin/index.js"
   },
@@ -28,14 +28,15 @@
     "@types/node": "^20.4.9",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.0.0",
+    "cfonts": "^3.2.0",
     "chalk": "^4.1.2",
     "commander": "^11.0.0",
+    "commitizen": "^4.3.0",
     "concurrently": "^8.2.0",
     "conventional-changelog-cli": "^3.0.0",
     "cz-conventional-changelog-zh": "^0.0.2",
     "eslint": "^8.0.1",
     "eslint-config-prettier": "^9.0.0",
-    "exec-sh": "^0.4.0",
     "execa": "^7.2.0",
     "fs-extra": "^11.1.1",
     "husky": "^8.0.3",
@@ -52,7 +53,7 @@
   },
   "lint-staged": {
     "*.{js,jsx,tsx,ts,less,md,json}": [
-      "prettier --write ./src/**/*",
+      "prettier --write ./src",
       "git add ."
     ]
   },

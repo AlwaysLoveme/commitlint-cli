@@ -19,7 +19,7 @@ export default class Spinner {
     this.spinnerInstance.fail(`${text} \n`);
   }
   succeed(text?: string) {
-    this.spinnerInstance.succeed(`${text} \n`);
+    this.spinnerInstance.succeed(`${text}`);
   }
   clear() {
     this.spinnerInstance.clear();
