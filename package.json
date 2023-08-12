@@ -16,7 +16,7 @@
     "dist",
     "bin"
   ],
-  "keywords": [],
+  "keywords": ["node-cli", "commitlint", "git commit"],
   "author": "zhuxian",
   "license": "MIT",
   "devDependencies": {
