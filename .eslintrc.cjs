@@ -9,14 +9,17 @@ module.exports = {
     "eslint:recommended",
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
-    "plugin:prettier/recommended",
+    "prettier",
   ],
   parserOptions: {
     ecmaVersion: "latest",
     sourceType: "module",
+    project: true,
+    tsconfigRootDir: __dirname,
   },
   rules: {
     semi: ["error", "always"],
     quotes: ["error", "double", { allowTemplateLiterals: true }],
+    "@typescript-eslint/no-explicit-any": "off",
   },
 };

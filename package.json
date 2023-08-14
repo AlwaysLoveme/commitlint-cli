@@ -8,6 +8,7 @@
   "scripts": {
     "dev": "concurrently \"tsc -w\" \"tsc-alias -w\"",
     "build": "tsc && tsc-alias -p tsconfig.json",
+    "lint": "eslint --fix . --ext .ts",
     "prepare": "husky install",
     "commit": "git add . && git cz",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0 && git add CHANGELOG.md"

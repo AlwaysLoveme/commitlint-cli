@@ -5,7 +5,7 @@ import { Command } from "commander";
 import pkg from "../package.json";
 import Spinner from "@/shared/spinner";
 import cFonts from "cfonts";
-import {centerText} from "@/shared/utils";
+import { centerText } from "@/shared/utils";
 
 const log = console.log;
 const spinner = new Spinner({
@@ -34,7 +34,11 @@ command
       transitionGradient: false, // define if this is a transition between colors directly
       env: "node", // define the environment cfonts is being executed in
     });
-    log(centerText('---- author: zhuxian email：z18270244870@gmail.com ---- \n\n'));
+    log(
+      centerText(
+        "---- author: zhuxian email：z18270244870@gmail.com ---- \n\n",
+      ),
+    );
     const currentProject = process.cwd();
     const currentPkg = path.resolve(
       __dirname,
@@ -72,12 +76,12 @@ command
         },
       };
       const npmPkgSet = [
-        'scripts.prepare="husky install"',
-        'scripts.commit="git add . && git cz"',
-        'scripts.changelog="conventional-changelog -p angular -i CHANGELOG.md -s -r 0 && git add CHANGELOG.md"',
+        `scripts.prepare="husky install"`,
+        `scripts.commit="git add . && git cz"`,
+        `scripts.changelog="conventional-changelog -p angular -i CHANGELOG.md -s -r 0 && git add CHANGELOG.md"`,
         `husky=${JSON.stringify(huskyValue)}`,
         `lint-staged=${JSON.stringify(lintStagedValue)}`,
-        'config.commitizen.path="./node_modules/cz-conventional-changelog-zh"',
+        `config.commitizen.path="./node_modules/cz-conventional-changelog-zh"`,
       ];
       await execa("npm", ["pkg", "set", ...npmPkgSet, "--json"]);
       spinner.succeed(
@@ -107,7 +111,7 @@ command
     }
 
     const dependText =
-      "husky@latest @commitlint/cli@latest @commitlint/config-conventional@latest conventional-changelog-cli@latest cz-conventional-changelog-zh@latest commitizen@latest";
+      "husky@latest @commitlint/cli@latest @commitlint/config-conventional@latest conventional-changelog-cli@latest cz-conventional-changelog-zh@latest commitizen@latest lint-staged";
     const depend = chalk.greenBright(dependText);
     spinner.clear();
 
@@ -137,7 +141,7 @@ command
             `npx --no -- commitlint --edit "$1"`,
           ],
         ],
-        ["npx", ["husky", "add", `.husky/pre-commit `, "npm lint-staged"]],
+        ["npx", ["husky", "add", `.husky/pre-commit`, "npm lint-staged"]],
       ];
       const commands = huskyInit.map(([command, args]) => execa(command, args));
       await Promise.all(commands);
