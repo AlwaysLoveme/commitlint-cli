@@ -69,17 +69,10 @@ command
           "git add .",
         ],
       };
-      const huskyValue = {
-        hooks: {
-          "pre-commit": "lint-staged",
-          "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-        },
-      };
       const npmPkgSet = [
         `scripts.prepare="husky install"`,
         `scripts.commit="git add . && git cz"`,
         `scripts.changelog="conventional-changelog -p angular -i CHANGELOG.md -s -r 0 && git add CHANGELOG.md"`,
-        `husky=${JSON.stringify(huskyValue)}`,
         `lint-staged=${JSON.stringify(lintStagedValue)}`,
         `config.commitizen.path="./node_modules/cz-conventional-changelog-zh"`,
       ];
@@ -111,13 +104,14 @@ command
     }
 
     const dependText =
-      "husky@latest @commitlint/cli@latest @commitlint/config-conventional@latest conventional-changelog-cli@latest cz-conventional-changelog-zh@latest commitizen@latest lint-staged";
+      "husky@8.0.3 @commitlint/cli@latest @commitlint/config-conventional@latest conventional-changelog-cli@latest cz-conventional-changelog-zh@latest commitizen@latest lint-staged prettier@latest";
     const depend = chalk.greenBright(dependText);
     spinner.clear();
 
     spinner.start(`installing dependencies: ${depend}`);
-    const { stderr } = await execa(packageTool.split(" ")[0], [
-      packageTool.split(" ")[1],
+    const packageCmd = packageTool.split(" ");
+    const { stderr } = await execa(packageCmd[0], [
+      packageCmd[1],
       ...dependText.split(" "),
       "-D",
     ]);
@@ -141,7 +135,7 @@ command
             `npx --no -- commitlint --edit "$1"`,
           ],
         ],
-        ["npx", ["husky", "add", `.husky/pre-commit`, "npm lint-staged"]],
+        ["npx", ["husky", "add", `.husky/pre-commit`, "lint-staged"]],
       ];
       const commands = huskyInit.map(([command, args]) => execa(command, args));
       await Promise.all(commands);
