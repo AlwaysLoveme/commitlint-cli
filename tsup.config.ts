@@ -10,5 +10,5 @@ export default defineConfig({
     format: ["cjs"],
     platform: "node",
     minify: "terser",
-    external: Object.keys(pkg.devDependencies)
+    external: Object.keys(pkg.dependencies)
 });
