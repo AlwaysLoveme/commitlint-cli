@@ -7,9 +7,6 @@ export default class Spinner {
     this.spinnerInstance = ora(options);
   }
 
-  getSpinner() {
-    return this.spinnerInstance;
-  }
   start(text?: string) {
     if (!this.spinnerInstance.isSpinning) {
       this.spinnerInstance.start(`${text} \n`);
