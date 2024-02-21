@@ -124,7 +124,7 @@ command
 
     spinner.start("configuring husky");
     try {
-      await execa("npx", ["husky", "install"]);
+      await execa("npx", ["husky", "init"]);
       const huskyInit: [string, string[]][] = [
         [
           "npx",
