@@ -15,11 +15,15 @@
 A node cli tool to generate git commitlint configuration rules for your project with @commitlint/cli and husky.
 
 ### Install
+
 ```bash
 npm install -g @zhuxian/commitlint-cli
 ```
+
 ### Useage
+
 after installed, run the following command in your project:
+
 ```bash
 commitlint-cli init
 ```
