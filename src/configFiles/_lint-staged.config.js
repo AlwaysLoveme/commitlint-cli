@@ -1,7 +1,5 @@
-const path = require("node:path");
-
 const formatStageFiles = stageFiles => {
-  return stageFiles.map(file => path.relative(process.cwd(), file)).join(" ");
+  return stageFiles.join(" ");
 };
 
 module.exports = {

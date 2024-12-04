@@ -1,7 +1,5 @@
-import path from "node:path";
-
 const formatStageFiles = stageFiles => {
-  return stageFiles.map(file => path.relative(process.cwd(), file)).join(" ");
+  return stageFiles.join(" ");
 };
 
 export default {
