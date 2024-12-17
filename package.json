@@ -1,17 +1,19 @@
 {
   "name": "@zhuxian/commitlint-cli",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "description": "A node cli tool to generate commitlint configuration rules for your project with @commitlint/cli and husky",
   "bin": {
     "commitlint-cli": "./bin/index.js"
   },
   "scripts": {
-    "dev": "concurrently \"tsc -w\" \"tsc-alias -w\"",
     "start": "tsup --watch",
-    "build": "tsup && cpy --flat ./src/configFiles/* ./dist/configFiles",
+    "build": "tsup && pnpm copy:files",
     "lint": "eslint --fix . --ext .ts",
-    "prepare": "husky install",
+    "prepare": "husky",
     "commit": "git add . && git cz",
+    "prestart": "pnpm copy:files",
+    "prepublish": "pnpm build",
+    "copy:files": "cpy --flat ./src/configFiles/* ./dist/configFiles",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0 && git add CHANGELOG.md"
   },
   "files": [
@@ -61,12 +63,6 @@
     "tsc-alias": "^1.8.7",
     "tsup": "^8.0.1",
     "typescript": "^5.1.6"
-  },
-  "lint-staged": {
-    "*.{js,jsx,tsx,ts,less,md,json}": [
-      "prettier --write ./src",
-      "git add ."
-    ]
   },
   "config": {
     "commitizen": {

@@ -151,9 +151,11 @@ command
     ];
     await exec(`npm pkg set ${npmPkgSet.join(" ")}`);
 
+    console.log("answers", answers);
+
     const configFileExt = es6Module ? "mjs" : "js";
     const configFilePath =
-      answers.workspacePackage === "根目录"
+      answers.workspacePackage === "根目录" || !answers.workspacePackage
         ? currentProject
         : packagesDir.find(pkg => pkg.dir === answers.workspacePackage)?.path;
     fsExtra.writeFileSync(
