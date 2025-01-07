@@ -1,6 +1,6 @@
 {
   "name": "@zhuxian/commitlint-cli",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "A node cli tool to generate commitlint configuration rules for your project with @commitlint/cli and husky",
   "bin": {
     "commitlint-cli": "./bin/index.js"
@@ -56,7 +56,7 @@
     "cz-conventional-changelog-zh": "^0.0.2",
     "eslint": "^8.0.1",
     "eslint-config-prettier": "^9.0.0",
-    "husky": "^8.0.3",
+    "husky": "^9.1.7",
     "lint-staged": "^15.2.2",
     "prettier": "^3.2.5",
     "terser": "^5.27.0",

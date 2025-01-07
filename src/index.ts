@@ -57,17 +57,9 @@ command
       process.exit(0);
     }
 
-    const currentPkg = path.resolve(
-      __dirname,
-      `${currentProject}/package.json`,
-    );
+    const currentPkg = path.resolve(__dirname, `${currentProject}/package.json`);
     if (!fsExtra.existsSync(currentPkg)) {
-      log(
-        "❎ " +
-          chalk.red(
-            "当前项目未使用包管理工具，请使用 npm init or pnpm init 初始化",
-          ),
-      );
+      log("❎ " + chalk.red("当前项目未使用包管理工具，请使用 npm init or pnpm init 初始化"));
       process.exit(0);
     }
 
@@ -86,33 +78,30 @@ command
         message: "请选择你的包管理工具",
         choices: ["npm", "pnpm", "yarn"],
       },
+      {
+        type: "list",
+        name: "enablePrettier",
+        message: "是否启用 Prettier",
+        choices: ["yes", "no"],
+      },
     ];
     const packagesDir: {
       dir: string;
       path: string;
       name: string;
     }[] = [];
-    const workSpaceConfig = path.resolve(
-      __dirname,
-      `${currentProject}/pnpm-workspace.yaml`,
-    );
+    const workSpaceConfig = path.resolve(__dirname, `${currentProject}/pnpm-workspace.yaml`);
     const isWorkSpace = fsExtra.existsSync(workSpaceConfig);
     if (isWorkSpace) {
       const workSpaceYaml = fsExtra.readFileSync(workSpaceConfig, "utf-8");
       const data = parseYaml.load(workSpaceYaml) as Record<string, any>;
-      const packages = (data["packages"] as string[]).map(item =>
-        item.replace("/*", ""),
-      );
+      const packages = (data["packages"] as string[]).map((item) => item.replace("/*", ""));
       for (const pkg of packages) {
         const stat = fsExtra.statSync(`${currentProject}/${pkg}`);
         if (stat.isDirectory()) {
           const pkgChildren = fsExtra
             .readdirSync(`${currentProject}/${pkg}`)
-            .filter(item =>
-              fsExtra
-                .statSync(`${currentProject}/${pkg}/${item}`)
-                .isDirectory(),
-            );
+            .filter((item) => fsExtra.statSync(`${currentProject}/${pkg}/${item}`).isDirectory());
           for (const child of pkgChildren) {
             const parent = `${currentProject}/${pkg}`;
             const pkgObj = {
@@ -120,10 +109,7 @@ command
               path: path.resolve(__dirname, `${parent}/${child}`),
               name: "",
             };
-            const pkgFile = path.resolve(
-              __dirname,
-              `${parent}/${child}/package.json`,
-            );
+            const pkgFile = path.resolve(__dirname, `${parent}/${child}/package.json`);
             if (fsExtra.existsSync(pkgFile)) {
               const pkgJson = fsExtra.readJsonSync(pkgFile);
               if (pkgJson) {
@@ -138,11 +124,12 @@ command
         type: "list",
         name: "workspacePackage",
         message: "检测到多包项目, 请选择需要配置的包(默认是根目录)",
-        choices: ["根目录", ...packagesDir.map(pkg => pkg.dir)],
+        choices: ["根目录", ...packagesDir.map((pkg) => pkg.dir)],
         default: "根目录",
       });
     }
     const answers = await inquirer.prompt(prompts);
+
     const npmPkgSet = [
       `scripts.prepare="husky"`,
       `scripts.commit="git add . && git cz"`,
@@ -150,21 +137,15 @@ command
       `config.commitizen.path="./node_modules/cz-conventional-changelog-zh"`,
     ];
     await exec(`npm pkg set ${npmPkgSet.join(" ")}`);
-
-    console.log("answers", answers);
-
     const configFileExt = es6Module ? "mjs" : "js";
     const configFilePath =
       answers.workspacePackage === "根目录" || !answers.workspacePackage
         ? currentProject
-        : packagesDir.find(pkg => pkg.dir === answers.workspacePackage)?.path;
+        : packagesDir.find((pkg) => pkg.dir === answers.workspacePackage)?.path;
     fsExtra.writeFileSync(
       `${configFilePath}/lint-staged.config.${configFileExt}`,
       fsExtra.readFileSync(
-        path.resolve(
-          __dirname,
-          `./configFiles/_lint-staged.config.${configFileExt}`,
-        ),
+        path.resolve(__dirname, `./configFiles/_lint-staged.config.${configFileExt}`),
         "utf-8",
       ),
       "utf-8",
@@ -172,21 +153,27 @@ command
     fsExtra.writeFileSync(
       `${configFilePath}/commitlint.config.${configFileExt}`,
       fsExtra.readFileSync(
-        path.resolve(
-          __dirname,
-          `./configFiles/_commitlint.config.${configFileExt}`,
-        ),
+        path.resolve(__dirname, `./configFiles/_commitlint.config.${configFileExt}`),
         "utf-8",
       ),
       "utf-8",
     );
+    if (answers.enablePrettier === "yes") {
+      fsExtra.writeFileSync(
+        `${configFilePath}/.prettierrc.${configFileExt}`,
+        fsExtra.readFileSync(
+          path.resolve(__dirname, `./configFiles/_prettierrc.${configFileExt}`),
+          "utf-8",
+        ),
+        "utf-8",
+      );
+    }
 
     const devDependencies =
       "husky @commitlint/cli @commitlint/config-conventional conventional-changelog-cli cz-conventional-changelog-zh commitizen lint-staged prettier";
     const workspaceDir =
       answers.workspacePackage !== "根目录"
-        ? packagesDir.find(pkg => pkg.dir === answers.workspacePackage)?.name ??
-          ""
+        ? packagesDir.find((pkg) => pkg.dir === answers.workspacePackage)?.name ?? ""
         : "-w";
     await exec(
       `${packageTool[answers.packageManager as keyof typeof packageTool]} ${devDependencies} -D ${isWorkSpace ? workspaceDir : ""}`,
@@ -196,26 +183,18 @@ command
 
     fsExtra.writeFileSync(
       `${configFilePath}/.husky/pre-commit`,
-      fsExtra.readFileSync(
-        path.resolve(__dirname, `./configFiles/pre-commit`),
-        "utf-8",
-      ),
+      fsExtra.readFileSync(path.resolve(__dirname, `./configFiles/pre-commit`), "utf-8"),
       "utf-8",
     );
     fsExtra.writeFileSync(
       `${configFilePath}/.husky/commit-msg`,
-      fsExtra.readFileSync(
-        path.resolve(__dirname, `./configFiles/commit-msg`),
-        "utf-8",
-      ),
+      fsExtra.readFileSync(path.resolve(__dirname, `./configFiles/commit-msg`), "utf-8"),
       "utf-8",
     );
     log(
       `🚀 Git 提交代码请使用一下命令: \n npm: ${chalk.greenBright(
         "npm run commit",
-      )} \n pnpm: ${chalk.greenBright(
-        "pnpm commit",
-      )} \n yarn: ${chalk.greenBright("yarn commit")}`,
+      )} \n pnpm: ${chalk.greenBright("pnpm commit")} \n yarn: ${chalk.greenBright("yarn commit")}`,
     );
     process.exit(0);
   });
