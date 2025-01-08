@@ -1,6 +1,6 @@
 {
   "name": "@zhuxian/commitlint-cli",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "A node cli tool to generate commitlint configuration rules for your project with @commitlint/cli and husky",
   "bin": {
     "commitlint-cli": "./bin/index.js"

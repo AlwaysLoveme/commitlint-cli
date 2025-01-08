@@ -3,7 +3,7 @@ const formatStageFiles = (stageFiles) => {
 };
 
 module.exports = {
-  "*.{js,jsx,tsx,ts,less,json}": (stageFiles) => [
+  "*.{js,jsx,tsx,ts,less}": (stageFiles) => [
     `eslint --fix ${formatStageFiles(stageFiles)}`,
     `prettier --write ${formatStageFiles(stageFiles)}`,
     "git add .",
