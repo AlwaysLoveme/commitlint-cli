@@ -150,16 +150,7 @@ const init = async () => {
     ),
     "utf-8",
   );
-  fsExtra.writeFileSync(
-    `${configFilePath}/.husky/pre-commit`,
-    fsExtra.readFileSync(path.resolve(__dirname, `./configFiles/pre-commit`), "utf-8"),
-    "utf-8",
-  );
-  fsExtra.writeFileSync(
-    `${configFilePath}/.husky/commit-msg`,
-    fsExtra.readFileSync(path.resolve(__dirname, `./configFiles/commit-msg`), "utf-8"),
-    "utf-8",
-  );
+
   if (answers.enablePrettier === "yes") {
     fsExtra.writeFileSync(
       `${configFilePath}/.prettierrc.${configFileExt}`,
@@ -193,6 +184,17 @@ const init = async () => {
     spinner,
     `正在安装依赖: ${devDependencies}`,
     "依赖安装成功",
+  );
+
+  fsExtra.writeFileSync(
+    `${configFilePath}/.husky/pre-commit`,
+    fsExtra.readFileSync(path.resolve(__dirname, `./configFiles/pre-commit`), "utf-8"),
+    "utf-8",
+  );
+  fsExtra.writeFileSync(
+    `${configFilePath}/.husky/commit-msg`,
+    fsExtra.readFileSync(path.resolve(__dirname, `./configFiles/commit-msg`), "utf-8"),
+    "utf-8",
   );
 
   log(
