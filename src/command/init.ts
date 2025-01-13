@@ -7,6 +7,7 @@ import parseYaml from "js-yaml";
 
 import exec from "@/shared/shell";
 import Spinner from "@/shared/spinner";
+import { sleep } from "@/shared/utils";
 import { eslintDependencies, commitLintDependencies } from "@/shared/constants";
 
 const log = console.log;
@@ -185,7 +186,7 @@ const init = async () => {
     `正在安装依赖: ${devDependencies}`,
     "依赖安装成功",
   );
-
+  await sleep();
   fsExtra.writeFileSync(
     `${configFilePath}/.husky/pre-commit`,
     fsExtra.readFileSync(path.resolve(__dirname, `./configFiles/pre-commit`), "utf-8"),
