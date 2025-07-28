@@ -1,6 +1,7 @@
 node_modules
 dist
 test
+demo
 
 .vscode/*
 !.vscode/settings.json

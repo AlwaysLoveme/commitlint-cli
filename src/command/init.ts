@@ -48,11 +48,11 @@ const init = async () => {
 
   const packageJson = fsExtra.readJsonSync(currentPkg);
   const es6Module = packageJson.type === "module";
-  const isReactProject = packageJson.dependencies.react || packageJson.dependencies["react-dom"];
+  const isReactProject = packageJson.dependencies?.react || packageJson.dependencies?.["react-dom"];
 
   const packageTool = {
     npm: "npm install",
-    pnpm: "pnpm add",
+    pnpm: "pnpm install",
     yarn: "yarn install",
   };
   const prompts: Parameters<typeof inquirer.prompt>[0][] = [
@@ -187,6 +187,12 @@ const init = async () => {
     "依赖安装成功",
   );
   await sleep();
+  await exec(
+    `${packageTool[answers.packageManager as keyof typeof packageTool]}`,
+    spinner,
+    `正在生成 Husky 配置`,
+    "Husky 配置生成成功",
+  );
   fsExtra.writeFileSync(
     `${configFilePath}/.husky/pre-commit`,
     fsExtra.readFileSync(path.resolve(__dirname, `./configFiles/pre-commit`), "utf-8"),
