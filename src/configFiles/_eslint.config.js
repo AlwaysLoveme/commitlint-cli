@@ -2,6 +2,7 @@ const eslint = require("@eslint/js");
 const globals = require("globals");
 const tsEslint = require("typescript-eslint");
 const pluginReact = require("eslint-plugin-react");
+const typescriptParser = require("@typescript-eslint/parser");
 const pluginReactRefresh = require("eslint-plugin-react-refresh");
 const eslintPluginPrettierRecommended = require("eslint-plugin-prettier/recommended");
 
@@ -24,7 +25,13 @@ module.exports = tsEslint.config(
   },
   {
     files: ["**/*.ts", "**/*.tsx"],
-    languageOptions: { parserOptions: { projectService: true, tsconfigRootDir: __dirname } },
+    languageOptions: {
+      parser: typescriptParser,
+      parserOptions: {
+        projectService: true,
+        tsconfigRootDir: __dirname,
+      },
+    },
     extends: [tsEslint.configs.strictTypeChecked, tsEslint.configs.stylisticTypeChecked],
     rules: {
       "@typescript-eslint/no-unsafe-return": "off",

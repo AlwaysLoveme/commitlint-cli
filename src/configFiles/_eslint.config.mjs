@@ -28,7 +28,8 @@ export default tsEslint.config(
   },
   {
     files: ["**/*.ts", "**/*.tsx"],
-    languageOptions: { 
+    languageOptions: {
+      parser: typescriptParser, 
       parserOptions: {
         ecmaVersion: "latest",
         sourceType: "module",
@@ -56,6 +57,7 @@ export default tsEslint.config(
     },
   },
   {
+    settings: { react: { version: "detect" } },
     rules: {
       "no-debugger": "off",
       "array-callback-return": ["error"],
