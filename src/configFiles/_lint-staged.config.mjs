@@ -3,7 +3,7 @@ const formatStageFiles = stageFiles => {
 };
 
 export default {
-  "*.{js,jsx,tsx,ts,less,json}": stageFiles => [
+  "*.{js,jsx,tsx,ts,less,scss}": stageFiles => [
     `eslint --fix ${formatStageFiles(stageFiles)}`,
     `prettier --write ${formatStageFiles(stageFiles)}`,
     "git add .",

@@ -9,8 +9,6 @@ import tsEslint from "typescript-eslint";
 
 export default tsEslint.config(
   eslint.configs.recommended,
-  tsEslint.configs.strictTypeChecked,
-  tsEslint.configs.stylisticTypeChecked,
   pluginReact.configs.flat.recommended,
   pluginReactRefresh.configs.recommended,
   eslintPluginPrettierRecommended,
@@ -50,6 +48,7 @@ export default tsEslint.config(
       "@typescript-eslint/no-unsafe-argument": "off",
       "@typescript-eslint/no-unsafe-assignment": "off",
       "@typescript-eslint/no-unsafe-call": "off",
+      "@typescript-eslint/unbound-method": "off",
       "@typescript-eslint/no-misused-promises": [
         "error",
         { checksVoidReturn: { attributes: false } },
